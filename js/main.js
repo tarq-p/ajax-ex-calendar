@@ -14,7 +14,7 @@ $('document').ready(function(){
 
     $('.mese-succ').click(function(){
              if(dataIniziale.isSameOrAfter(limiteFinale)){
-                   alert('No way man! ');
+                   alert('No!');
               } else {
                    $('.mese-prec').prop('disabled', false);
                   dataIniziale.add(1, 'months');
@@ -79,5 +79,7 @@ $('document').ready(function(){
             standardDay.add(1,'day');
         };
     };
+
+    
 
 });
