@@ -3,25 +3,46 @@ $(document).ready(function () {
     var htmlGiorno = $('#calendar-template').html();
     var templateGiorno = Handlebars.compile(htmlGiorno);
 
-    // Stampare il mese di Gennaio 2018
-    // Tramite click stampare il mese successivo
 
     var dataIniziale = moment('2018-01-01');
-    stampaGiorniMese(dataIniziale); // Inizializzazione Calendario
-    stampaFestivi();
+
+    var limiteIniziale = moment('2018-01-01');
+    var limiteFinale = moment('2018-12-31');
+
+    stampaGiorniMese(dataIniziale);
+    stampaFestivi(dataIniziale);
 
     $('.mese-succ').click(function () {
+        $('.mese-prec').prop('disabled', false);
         dataIniziale.add(1, 'month');
         stampaGiorniMese(dataIniziale);
+        stampaFestivi(dataIniziale);
     });
 
-    function stampaFestivi() {
+    $('.mese-prec').click(function () {
+         if(dataIniziale.isSameOrBefore(limiteIniziale)){
+              alert('Hai provato ad hackerarmi! :( ');
+         } else {
+             dataIniziale.subtract(1, 'month');
+             stampaGiorniMese(dataIniziale);
+             stampaFestivi(dataIniziale);
+             if(dataIniziale.isSameOrBefore(limiteIniziale)) {
+                $('.mese-prec').prop('disabled', true);
+           }
+         }
+
+
+
+
+    });
+
+    function stampaFestivi(variabileMeseCorrente) {
         $.ajax({
             url: 'https://flynn.boolean.careers/exercises/api/holidays',
             method: 'GET',
             data: {
-                year: 2018,
-                month: 0
+                year: variabileMeseCorrente.year(),
+                month: variabileMeseCorrente.month()
             },
             success: function (data) {
                 var giorniFestivi = data.response;
@@ -40,16 +61,15 @@ $(document).ready(function () {
         var standardDay = meseDaStampare.clone();
         var giorniMese = meseDaStampare.daysInMonth();
         var nomeMese = meseDaStampare.format('MMMM');
-        $('#nome-mese').text(nomeMese); // Aggiorniamo il nome del mese in top calendar
+        $('#nome-mese').text(nomeMese);
         for (var i = 1; i <= giorniMese; i++) {
-            // $('#calendar').append('<li>' + i + ' ' + nomeMese + '</li>');
             var giornoDaInserire = {
                 day: i + ' ' + nomeMese,
                 dataDay: standardDay.format('YYYY-MM-DD')
             }
-            var templateFinale = templateGiorno(giornoDaInserire); // Stiamo popolando il template con i dati dell'oggetto
+            var templateFinale = templateGiorno(giornoDaInserire);
             $('#calendar').append(templateFinale);
-            standardDay.add(1, 'day');
+            standardDay.add(1, 'day'); 
         }
     }
 
