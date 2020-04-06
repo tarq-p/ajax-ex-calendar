@@ -69,7 +69,7 @@ $(document).ready(function () {
             }
             var templateFinale = templateGiorno(giornoDaInserire);
             $('#calendar').append(templateFinale);
-            standardDay.add(1, 'day'); 
+            standardDay.add(1, 'day');
         }
     }
 

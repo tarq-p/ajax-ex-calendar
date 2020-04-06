@@ -23,7 +23,22 @@
 #calendar li,
 #nome-mese {
     text-transform: capitalize;
+    padding-top: 10px;
+    padding-right: 30px;
 }
+
+li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#calendar {
+    display: flex;
+    flex-direction: column;
+}
+
 
 .festivo {
     color: red;
